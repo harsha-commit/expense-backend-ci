@@ -44,11 +44,5 @@ pipeline{
         always{
             deleteDir()
         }
-        success{
-
-        }
-        failure{
-
-        }
     }
 }
