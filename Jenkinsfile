@@ -11,6 +11,7 @@ pipeline{
 
     environment{
         def appVersion = ""
+        def nexusUrl = "nexus.harshadevops.site:8081"
     }
 
     stages{
@@ -36,6 +37,25 @@ pipeline{
                     rm -rf backend-${appVersion}.zip
                     zip -rq backend-${appVersion}.zip * -x Jenkinsfile
                 """
+            }
+        }
+        stage('Upload the Artifact to Nexus Repository'){
+            steps{
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${nexusUrl}",
+                    groupId: 'com.expense',
+                    version: "${appVersion}",
+                    repository: 'backend',
+                    credentialsId: 'nexus-auth',
+                    artifacts: [
+                        [artifactId: 'backend',
+                        classifier: '',
+                        file: "backend-${appVersion}.zip",
+                        type: 'zip']
+                    ]
+                )
             }
         }
     }
