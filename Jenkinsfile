@@ -58,5 +58,15 @@ pipeline{
                 )
             }
         }
+        stage('Trigger the Deploy Job'){
+            steps{
+                script{
+                    def params = [
+                        string(name: 'appVersion', value: "${appVersion}")
+                    ]
+                    build job: 'backend-cd', parameters: , wait: false
+                }
+            }
+        }
     }
 }
