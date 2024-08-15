@@ -64,7 +64,7 @@ pipeline{
                     def params = [
                         string(name: 'appVersion', value: "${appVersion}")
                     ]
-                    build job: 'backend-cd', parameters: , wait: false
+                    build job: 'backend-cd', parameters: $params , wait: false
                 }
             }
         }
